@@ -1,3 +1,4 @@
+import MarqueePage from "./Marquee";
 
 interface Category{
   id: string;
@@ -8,7 +9,7 @@ interface Category{
 
 const NavLinksPage = async () => {
   const res = await fetch(
-    "https://api.api-store.workers.dev/api/bazardor/categories"
+    "https://api.abcz.workers.dev/api/bazardor/categories"
   );
 
   const data: Category[] = await res.json();
@@ -26,6 +27,7 @@ const NavLinksPage = async () => {
           </div>
         ))}
       </div>
+      <MarqueePage/>
     </nav>
   );
 };
