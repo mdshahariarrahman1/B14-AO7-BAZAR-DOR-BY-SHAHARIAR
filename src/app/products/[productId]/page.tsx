@@ -58,7 +58,7 @@ const ProductDetailsPage = async ({
     <main className="min-h-screen bg-[#F0F5F1] px-4 py-6">
       <div className="container mx-auto">
         <div className="mb-5 text-[14px] text-gray-500">
-          <Link className="pr-1" href="/">
+          <Link className="pr-1" href="/home">
             হোম
           </Link>
           {" › "}
