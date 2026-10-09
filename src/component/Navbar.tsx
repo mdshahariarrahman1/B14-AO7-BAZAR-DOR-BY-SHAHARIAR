@@ -2,11 +2,9 @@ import Image from "next/image";
 
 import Logo from "@/asst/logo-icon.png";
 import NavLinksPage from "./NavLinks";
+import CurrentDate from "./CurrentDate";
 
 const NavbarPage = () => {
-  const date = new Date().toLocaleDateString("bn-BD", {
-    dateStyle: "full",
-  });
 
   return (
     <>
@@ -21,7 +19,7 @@ const NavbarPage = () => {
           />
           <div>
             <h1 className=" font-bold text-[22px]">বাজার দর</h1>
-            <p className="text-[14px]">{date}</p>
+            <p className="text-[14px]"><CurrentDate/></p>
           </div>
         </div>
 
