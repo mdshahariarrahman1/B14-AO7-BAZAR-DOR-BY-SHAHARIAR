@@ -55,3 +55,4 @@ const NavbarPage = async () => {
 };
 
 export default NavbarPage;
+
