@@ -1,50 +1,57 @@
-import Image from "next/image";
 
+import Image from "next/image";
 import HeroImage from "@/asst/bazar-hero 1.png";
 import Link from "next/link";
+import { connection } from "next/server";
 
-const HeroSectionPage = () => {
-  const dates = new Date().toLocaleDateString("bn-BD", {
+const NavbarPage = async () => {
+  await connection();
+
+  const date = new Date().toLocaleDateString("bn-BD", {
     dateStyle: "full",
   });
 
   return (
-    <>
-      <section className="bg-[#F1F7F3] px-4 py-5">
-        <div className="container mx-auto">
-          <div className="flex min-h-57 items-center justify-between overflow-hidden rounded-[20px] border border-[#DDE6DF] bg-[#FFFFFF] px-5 py-5 md:px-3 lg:px-3">
-            <div className="pl-4">
-              <div className="mb-2 inline-flex rounded-full bg-[#E5F6EA] px-3 py-1">
-                <p className="text-[14px] leading-5 font-medium text-[#05893E]">
-                  {dates}
-                </p>
-              </div>
-
-              <h1 className="text-[36px] font-bold leading-11.25 tracking-[-0.5px] text-[#1D271F] md:text-[32px]">
-                আজকের বাজারের দাম এক নজরে
-              </h1>
-
-              <p className="mt-4 max-w-130 text-[15px] leading-6 text-[#1D271F]/70">
-                চাল, ডাল, তেল, সবজি, মাছ, মাংস, ডিম ও মসলার দাম — বাজারভিত্তিক
-                বিভাজিত, দ্রুত, সর্বনিম্ন-সর্বাধিক এবং দামের পরিবর্তন এক জায়গায়।
+    <section className="bg-[#F1F7F3] px-4 py-5">
+      <div className="container mx-auto">
+        <div className="flex min-h-57 items-center justify-between overflow-hidden rounded-[20px] border border-[#DDE6DF] bg-white px-5 py-5 md:px-3 lg:px-3">
+          <div className="pl-4">
+            <div className="mb-2 inline-flex rounded-full bg-[#E5F6EA] px-3 py-1">
+              <p className="text-[14px] leading-5 font-medium text-[#05893E]">
+                {date}
               </p>
-
-              <Link
-                href="#সব-পণ্য"
-                className="mt-5 inline-flex items-center rounded-md bg-[#05893E] px-5 py-2.5 text-[13px] font-semibold text-white transition-all duration-200 hover:bg-[#047F39]"
-              >
-                সব পণ্য দেখুন
-              </Link>
             </div>
 
-            <div className="hidden pr-8 md:block">
-              <Image src={HeroImage} alt="বাজারের পণ্য" />
-            </div>
+            <h1 className="text-[36px] leading-11.25 font-bold tracking-[-0.5px] text-[#1D271F] md:text-[32px]">
+              আজকের বাজারের দাম এক নজরে
+            </h1>
+
+            <p className="mt-4 max-w-130 text-[15px] leading-6 text-[#1D271F]/70">
+              চাল, ডাল, তেল, সবজি, মাছ, মাংস, ডিম ও মসলার দাম —
+              বাজারভিত্তিক বিভাজিত, দ্রুত, সর্বনিম্ন-সর্বাধিক এবং
+              দামের পরিবর্তন এক জায়গায়।
+            </p>
+
+            <Link
+              href="#সব-পণ্য"
+              className="mt-5 inline-flex items-center rounded-md bg-[#05893E] px-5 py-2.5 text-[13px] font-semibold text-white transition-all duration-200 hover:bg-[#047F39]"
+            >
+              সব পণ্য দেখুন
+            </Link>
+          </div>
+
+          <div className="hidden pr-8 md:block">
+            <Image
+              src={HeroImage}
+              alt="বাজারের পণ্য"
+              priority
+              className="h-auto w-auto"
+            />
           </div>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 };
 
-export default HeroSectionPage;
+export default NavbarPage;
