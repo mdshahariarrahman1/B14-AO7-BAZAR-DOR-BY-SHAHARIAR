@@ -1,3 +1,4 @@
+export const instant = false;
 import HeroSectionPage from "@/component/HeroSection";
 import HomePages from "./home/page";
 

@@ -1,8 +1,8 @@
+
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
-
-import { Product } from "@/types/product";
+import type { Product } from "@/types/product";
 import CategoryProducts from "@/component/CategoryProducts";
-
 
 interface CategoryPageProps {
   params: Promise<{
@@ -10,7 +10,9 @@ interface CategoryPageProps {
   }>;
 }
 
-const CategoryPage = async ({ params }: CategoryPageProps) => {
+const CategoryContent = async ({
+  params,
+}: CategoryPageProps) => {
   const { categoryId } = await params;
 
   const res = await fetch(
@@ -33,12 +35,8 @@ const CategoryPage = async ({ params }: CategoryPageProps) => {
   return (
     <main className="min-h-screen bg-[#F1F6F2]">
       <div className="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
-
-        {/* Category heading */}
         <section className="flex min-h-21 items-center gap-3 rounded-2xl border border-[#DDE6DF] bg-white px-5 py-4">
-          <span className="text-3xl">
-            {categoryIcon}
-          </span>
+          <span className="text-3xl">{categoryIcon}</span>
 
           <div>
             <h1 className="text-xl font-bold text-[#1D271F]">
@@ -46,16 +44,29 @@ const CategoryPage = async ({ params }: CategoryPageProps) => {
             </h1>
 
             <p className="mt-1 text-xs text-[#1D271F]/60">
-              {products.length.toLocaleString("bn-BD")}টি পণ্যের আজকের দাম ও পরিবর্তন
+              {products.length.toLocaleString("bn-BD")}
+              টি পণ্যের আজকের দাম ও পরিবর্তন
             </p>
           </div>
         </section>
 
-        {/* Sorting and products */}
-        <CategoryProducts products={products}/>
-
+        <CategoryProducts products={products} />
       </div>
     </main>
+  );
+};
+
+const CategoryPage = ({ params }: CategoryPageProps) => {
+  return (
+    <Suspense
+      fallback={
+        <main className="min-h-screen bg-[#F1F6F2] p-6 text-center">
+          পণ্যের তথ্য লোড হচ্ছে...
+        </main>
+      }
+    >
+      <CategoryContent params={params} />
+    </Suspense>
   );
 };
 

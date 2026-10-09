@@ -1,17 +1,22 @@
 
+import { Suspense } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Product } from "@/types/product";
 
-const ProductDetailsPage = async ({
+interface ProductDetailsPageProps {
+  params: Promise<{
+    productId: string;
+  }>;
+}
+
+const ProductDetailsContent = async ({
   params,
-}: {
-  params: Promise<{ productId: string }>;
-}) => {
+}: ProductDetailsPageProps) => {
   const { productId } = await params;
 
   const res = await fetch(
-    `https://api.api-store.workers.dev/api/bazardor/products`,
+    "https://api.api-store.workers.dev/api/bazardor/products",
     { cache: "no-store" }
   );
 
@@ -49,7 +54,8 @@ const ProductDetailsPage = async ({
   const averagePrice =
     markets.length > 0
       ? markets.reduce(
-          (total, market) => total + (market.min + market.max) / 2,
+          (total, market) =>
+            total + (market.min + market.max) / 2,
           0
         ) / markets.length
       : product.today;
@@ -165,7 +171,8 @@ const ProductDetailsPage = async ({
               <p className="mt-1 font-bold">
                 {averagePrice.toLocaleString("bn-BD", {
                   maximumFractionDigits: 2,
-                })} টাকা
+                })}{" "}
+                টাকা
               </p>
 
               <p className="text-[10px] text-gray-500">
@@ -213,9 +220,11 @@ const ProductDetailsPage = async ({
                     </td>
 
                     <td className="p-3 text-right font-semibold">
-                      {((market.min + market.max) / 2).toLocaleString(
-                        "bn-BD"
-                      )} টাকা
+                      {(
+                        (market.min + market.max) /
+                        2
+                      ).toLocaleString("bn-BD")}{" "}
+                      টাকা
                     </td>
                   </tr>
                 ))}
@@ -233,6 +242,22 @@ const ProductDetailsPage = async ({
         </section>
       </div>
     </main>
+  );
+};
+
+const ProductDetailsPage = ({
+  params,
+}: ProductDetailsPageProps) => {
+  return (
+    <Suspense
+      fallback={
+        <main className="min-h-screen bg-[#F0F5F1] p-6 text-center">
+          পণ্যের তথ্য লোড হচ্ছে...
+        </main>
+      }
+    >
+      <ProductDetailsContent params={params} />
+    </Suspense>
   );
 };
 
