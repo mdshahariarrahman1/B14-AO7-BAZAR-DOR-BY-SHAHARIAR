@@ -1,3 +1,5 @@
+
+import Link from "next/link";
 import MarqueeText from "react-marquee-text";
 import "react-marquee-text/dist/styles.css";
 
@@ -22,22 +24,31 @@ interface Product {
 
 const MarqueePage = async () => {
   const res = await fetch(
-    "https://api.abcz.workers.dev/api/bazardor/products"
+    "https://api.api-store.workers.dev/api/bazardor/products",
+    { cache: "no-store" }
   );
 
-  const data: Product[] = await res.json();
+  if (!res.ok) {
+    return null;
+  }
+
+  const result = await res.json();
+
+  const data: Product[] = Array.isArray(result)
+    ? result
+    : Array.isArray(result.products)
+      ? result.products
+      : [];
 
   return (
-    <div className="border-b border-t border-gray-200 bg-white overflow-hidden cursor-pointer">
-      <MarqueeText
-        direction="right"
-        duration={35}
-      >
+    <div className="cursor-pointer overflow-hidden border-y border-gray-200 bg-white">
+      <MarqueeText direction="right" duration={35}>
         <div className="flex items-center">
           {data.map((product) => (
-            <div
+            <Link
               key={product.id}
-              className="flex items-center gap-2 whitespace-nowrap border-r border-gray-200 px-6 py-3 text-sm"
+              href={`/products/${product.slug}`}
+              className="flex shrink-0 items-center gap-2 whitespace-nowrap border-r border-gray-200 px-6 py-3 text-sm hover:bg-[#F0F5F1]"
             >
               <span className="text-base">
                 {product.categoryIcon}
@@ -48,7 +59,8 @@ const MarqueePage = async () => {
               </span>
 
               <span className="text-[#1D271F]">
-                {product.today} টাকা/{product.unit}
+                {product.today.toLocaleString("bn-BD")} টাকা/
+                {product.unit}
               </span>
 
               <span
@@ -59,9 +71,9 @@ const MarqueePage = async () => {
                 }
               >
                 {product.change.dir === "up" ? "▲" : "▼"}{" "}
-                {product.change.pct}%
+                {product.change.pct.toLocaleString("bn-BD")}%
               </span>
-            </div>
+            </Link>
           ))}
         </div>
       </MarqueeText>

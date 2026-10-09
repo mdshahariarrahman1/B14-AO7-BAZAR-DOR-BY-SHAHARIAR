@@ -9,7 +9,7 @@ const NavbarPage = () => {
   });
 
   return (
-    <div className=" ">
+    <>
       <section className="container mx-auto flex justify-between py-3 px-4">
         <div className=" flex items-center gap-3">
           <Image
@@ -38,7 +38,8 @@ const NavbarPage = () => {
         </div>
       </section>
       <NavLinksPage/>
-    </div>
+    
+    </>
   );
 };
 

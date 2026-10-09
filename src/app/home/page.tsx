@@ -1,14 +1,10 @@
-import NavbarPage from "@/component/Navbar";
-import MarqueePage from "@/component/Marquee";
-
-
 import RisingProducts from "@/component/ProductSections/RisingProducts";
 import FallingProducts from "@/component/ProductSections/FallingProducts";
 import AllProducts from "@/component/ProductSections/AllProducts";
 
 const HomePages = async () => {
   const res = await fetch(
-    "https://api.abcz.workers.dev/api/bazardor/products"
+    "https://api.api-store.workers.dev/api/bazardor/products"
   );
 
   const products = await res.json();
