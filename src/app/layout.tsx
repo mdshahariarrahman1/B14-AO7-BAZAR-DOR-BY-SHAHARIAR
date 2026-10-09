@@ -4,6 +4,7 @@ import "./globals.css";
 
 import NavbarPage from "@/component/Navbar";
 import FooterPage from "@/component/Footer";
+import { Suspense } from "react";
 
 const hindSiliguri = Hind_Siliguri({
   subsets: ["bengali"],
@@ -23,7 +24,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${hindSiliguri.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <Suspense fallback={<div>loading...</div>}>
         <NavbarPage />
+        </Suspense>
         <main>{children}</main>
         <FooterPage/>
       </body>
