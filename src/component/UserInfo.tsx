@@ -36,11 +36,11 @@ const UserInfo = () => {
   // User login না থাকলে
   if (!user) {
     return (
-      <div className="flex items-center gap-4">
+      <div className="flex shrink-0 items-center gap-1.5 sm:gap-4">
         <Link href="/sign-in">
           <button
             type="button"
-            className="cursor-pointer py-2.5 px-5 text-[16px] font-semibold text-[#1D271F] leading-5"
+            className="cursor-pointer whitespace-nowrap px-2 py-2 text-xs font-semibold leading-5 text-[#1D271F] sm:px-5 sm:py-2.5 sm:text-[16px]"
           >
             সাইন ইন
           </button>
@@ -49,7 +49,7 @@ const UserInfo = () => {
         <Link href="/sign-up">
           <button
             type="button"
-            className="cursor-pointer rounded-lg bg-[#05893E] px-5 py-2.5 text-[16px] font-semibold text-[#F3FBF4] leading-5 hover:shadow-[0_6px_8px_0_#047F3966] transition-shadow duration-200"
+            className="cursor-pointer whitespace-nowrap rounded-lg bg-[#05893E] px-2.5 py-2 text-xs font-semibold leading-5 text-[#F3FBF4] transition-shadow duration-200 hover:shadow-[0_6px_8px_0_#047F3966] sm:px-5 sm:py-2.5 sm:text-[16px]"
           >
             সাইন আপ
           </button>
@@ -59,13 +59,13 @@ const UserInfo = () => {
   }
 
   return (
-    <div className="relative">
-      {/* Profile Button: Click করার আগের UI */}
+    <div className="relative shrink-0">
+      {/* Profile Button */}
       <button
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
         aria-expanded={isOpen}
-        className="flex items-center gap-2 rounded-full px-2 py-1.5 hover:bg-[#F0F5F1] transition-colors cursor-pointer"
+        className="flex max-w-36.25 cursor-pointer items-center gap-1 rounded-full px-1.5 py-1.5 transition-colors hover:bg-[#F0F5F1] sm:max-w-none sm:gap-2 sm:px-2"
       >
         {user.image ? (
           <Image
@@ -73,15 +73,15 @@ const UserInfo = () => {
             alt={user.name || "User"}
             width={28}
             height={28}
-            className="h-7 w-7 rounded-full object-cover"
+            className="h-7 w-7 shrink-0 rounded-full object-cover"
           />
         ) : (
-          <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#DDE8DE] text-sm font-semibold text-[#1D271F]">
+          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#DDE8DE] text-sm font-semibold text-[#1D271F]">
             {user.name?.charAt(0).toUpperCase() || "U"}
           </div>
         )}
 
-        <span className="text-[14px] font-medium leading-5 text-[#1D271F]">
+        <span className="truncate text-xs font-medium leading-5 text-[#1D271F] sm:text-[14px]">
           {user.name || "User"}
         </span>
 
@@ -95,7 +95,7 @@ const UserInfo = () => {
           strokeWidth="1.8"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className={`text-[#647067] transition-transform duration-200 ${
+          className={`shrink-0 text-[#647067] transition-transform duration-200 ${
             isOpen ? "rotate-180" : ""
           }`}
         >
@@ -103,10 +103,9 @@ const UserInfo = () => {
         </svg>
       </button>
 
-      {/* Click করার পর Dropdown */}
+      {/* Dropdown */}
       {isOpen && (
         <>
-          {/* বাইরে Click করলে Dropdown বন্ধ হবে */}
           <button
             type="button"
             aria-label="Close dropdown"
@@ -114,37 +113,35 @@ const UserInfo = () => {
             className="fixed inset-0 z-40 cursor-default"
           />
 
-          <div className="absolute right-0 top-full z-50 mt-2 w-90 max-w-[calc(100vw-24px)] rounded-[24px] border border-[#DFE7DF] bg-[#FAFCFA] px-7 py-6 shadow-[0_12px_20px_rgba(0,0,0,0.18)]">
+          <div className="absolute right-0 top-full z-50 mt-2 w-[calc(100vw-24px)] max-w-90 rounded-2xl border border-[#DFE7DF] bg-[#FAFCFA] px-4 py-5 shadow-[0_12px_20px_rgba(0,0,0,0.18)] sm:w-90 sm:rounded-[24px] sm:px-7 sm:py-6">
             {/* User Information */}
-            <div className="mb-5">
-              <h3 className="text-[20px] font-semibold leading-7 text-[#263129]">
+            <div className="mb-5 min-w-0">
+              <h3 className="wrap-break-word text-lg font-semibold leading-7 text-[#263129] sm:text-[20px]">
                 {user.name}
               </h3>
 
-              <p className="break-all text-[16px] leading-6 text-[#68716A]">
+              <p className="break-all text-sm leading-6 text-[#68716A] sm:text-[16px]">
                 {user.email}
               </p>
             </div>
 
             {/* My Profile */}
-
-            <Link href="/profile">
-            <button
-              type="button"
-              className="mb-4 flex w-full cursor-pointer items-center gap-2 text-left text-[18px] text-[#263129] hover:text-[#05893E] transition-colors"
+            <Link
+              href="/profile"
+              onClick={() => setIsOpen(false)}
+              className="mb-4 flex w-full items-center gap-2 text-left text-base text-[#263129] transition-colors hover:text-[#05893E] sm:text-[18px]"
             >
               <span>👤</span>
               <span>আমার প্রোফাইল</span>
-            </button>
             </Link>
 
             {/* Sign Out */}
             <button
               type="button"
               onClick={handleSignOut}
-              className="flex cursor-pointer w-full items-center gap-2 text-left text-[18px] text-[#EF4444] hover:text-[#C62828] transition-colors"
+              className="flex w-full cursor-pointer items-center gap-2 text-left text-base text-[#EF4444] transition-colors hover:text-[#C62828] sm:text-[18px]"
             >
-              <span className="text-[24px]">↶</span>
+              <span className="text-2xl">↶</span>
               <span>সাইন আউট</span>
             </button>
           </div>

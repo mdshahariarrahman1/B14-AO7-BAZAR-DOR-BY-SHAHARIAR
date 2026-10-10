@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, type FormEvent } from "react";
@@ -7,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "react-toastify";
 
-const ProfilePage=()=> {
+const ProfilePage = () => {
   const router = useRouter();
   const { data: session, isPending } = authClient.useSession();
 
@@ -64,6 +63,7 @@ const ProfilePage=()=> {
       }
 
       toast.success("প্রোফাইল আপডেট হয়েছে!");
+      setName("");
       router.refresh();
     } catch {
       toast.error("আপডেট করতে সমস্যা হয়েছে");
@@ -74,10 +74,10 @@ const ProfilePage=()=> {
 
   if (isPending) {
     return (
-      <main className="min-h-[75vh] bg-[#F0F5F0] px-4 py-12">
-        <div className=" container mx-auto animate-pulse">
+      <main className="min-h-[75vh] bg-[#F0F5F0] px-3 py-8 sm:px-4 sm:py-12">
+        <div className="container mx-auto animate-pulse">
           <div className="mb-6 h-8 w-40 rounded bg-gray-200" />
-          <div className="mb-5 h-27 rounded-2xl bg-white" />
+          <div className="mb-5 h-32 rounded-2xl bg-white sm:h-27" />
           <div className="h-56 rounded-2xl bg-white" />
         </div>
       </main>
@@ -86,15 +86,15 @@ const ProfilePage=()=> {
 
   if (!user) {
     return (
-      <main className="flex min-h-[75vh] items-center justify-center bg-[#F0F5F0] px-4">
-        <div className="rounded-2xl border border-[#DFE7DF] bg-[#FAFCFA] p-8 text-center">
-          <h1 className="text-xl font-bold text-[#252D26]">
+      <main className="flex min-h-[75vh] items-center justify-center bg-[#F0F5F0] px-3 py-8 sm:px-4">
+        <div className="w-full max-w-md rounded-2xl border border-[#DFE7DF] bg-[#FAFCFA] p-5 text-center sm:p-8">
+          <h1 className="text-lg font-bold text-[#252D26] sm:text-xl">
             আপনার প্রোফাইল দেখতে সাইন ইন করুন
           </h1>
 
           <button
             onClick={() => router.push("/sign-in")}
-            className="mt-5 rounded-lg bg-[#078A43] px-6 py-3 font-semibold text-white hover:bg-[#067638]"
+            className="mt-5 w-full rounded-lg bg-[#078A43] px-6 py-3 font-semibold text-white transition hover:bg-[#067638] sm:w-auto"
           >
             সাইন ইন
           </button>
@@ -104,22 +104,23 @@ const ProfilePage=()=> {
   }
 
   return (
-    <main className="min-h-[75vh] bg-[#F0F5F0] px-4 py-10 text-[#252D26]">
+    <main className="min-h-[75vh] bg-[#F0F5F0] px-3 py-6 text-[#252D26] sm:px-4 sm:py-10">
       <div className="container mx-auto">
         {/* Heading */}
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold tracking-tight">
+        <div className="mb-5 sm:mb-6">
+          <h1 className="text-xl font-bold tracking-tight sm:text-2xl">
             আমার প্রোফাইল
           </h1>
-          <p className="mt-1 text-sm text-[#758078]">
+
+          <p className="mt-1 text-sm leading-6 text-[#758078]">
             আপনার অ্যাকাউন্টের তথ্য এখানে দেখুন।
           </p>
         </div>
 
         {/* User Information */}
-        <div className="mb-5 flex min-w-0 items-center justify-between gap-4 rounded-2xl border border-[#DFE7DF] bg-[#FAFCFA] p-5">
-          <div className="flex min-w-0 items-center gap-3.5">
-            <div className="relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-[#E9EEE9]">
+        <div className="mb-5 flex min-w-0 flex-col gap-4 rounded-2xl border border-[#DFE7DF] bg-[#FAFCFA] p-4 min-[420px]:flex-row min-[420px]:items-center min-[420px]:justify-between sm:p-5">
+          <div className="flex min-w-0 items-center gap-3">
+            <div className="relative flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-[#E9EEE9] sm:h-16 sm:w-16">
               {user.image ? (
                 <Image
                   src={user.image}
@@ -136,11 +137,12 @@ const ProfilePage=()=> {
               )}
             </div>
 
-            <div className="min-w-0">
-              <h2 className="truncate text-lg font-semibold">
+            <div className="min-w-0 flex-1">
+              <h2 className="truncate text-base font-semibold sm:text-lg">
                 {user.name || "ব্যবহারকারী"}
               </h2>
-              <p className="break-all text-sm text-[#758078]">
+
+              <p className="break-all text-xs leading-5 text-[#758078] sm:text-sm">
                 {user.email}
               </p>
             </div>
@@ -149,15 +151,17 @@ const ProfilePage=()=> {
           <button
             onClick={handleSignOut}
             disabled={isSigningOut}
-            className="shrink-0 rounded-lg border border-red-500 px-3 py-2 text-sm font-medium text-red-500 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60"
+            className="w-full shrink-0 rounded-lg border border-red-500 px-3 py-2.5 text-sm font-medium text-red-500 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60 min-[420px]:w-auto"
           >
             ↩ {isSigningOut ? "সাইন আউট হচ্ছে..." : "সাইন আউট"}
           </button>
         </div>
 
         {/* Profile Form */}
-        <div className="rounded-2xl border border-[#DFE7DF] bg-[#FAFCFA] p-5">
-          <h2 className="mb-7 text-base font-bold">তথ্য</h2>
+        <div className="rounded-2xl border border-[#DFE7DF] bg-[#FAFCFA] p-4 sm:p-5">
+          <h2 className="mb-5 text-base font-bold sm:mb-7">
+            তথ্য
+          </h2>
 
           <form onSubmit={handleUpdate} className="px-0 sm:px-5">
             <label
@@ -173,13 +177,13 @@ const ProfilePage=()=> {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder={user.name || "আপনার নাম লিখুন"}
-              className="h-9.5 w-full rounded-lg border border-[#DFE7DF] bg-transparent px-3 text-sm outline-none transition focus:border-[#078A43] focus:ring-1 focus:ring-[#078A43]"
+              className="h-10 w-full rounded-lg border border-[#DFE7DF] bg-transparent px-3 text-sm outline-none transition focus:border-[#078A43] focus:ring-1 focus:ring-[#078A43]"
             />
 
             <button
               type="submit"
               disabled={isUpdating || !name.trim()}
-              className="mt-3.5 h-9.5 w-full rounded-lg bg-[#078A43] text-sm font-semibold text-white shadow-[0_3px_3px_rgba(0,0,0,0.2)] transition hover:bg-[#067638] disabled:cursor-not-allowed disabled:opacity-60"
+              className="mt-3.5 h-10 w-full rounded-lg bg-[#078A43] text-sm font-semibold text-white shadow-[0_3px_3px_rgba(0,0,0,0.2)] transition hover:bg-[#067638] disabled:cursor-not-allowed disabled:opacity-60"
             >
               {isUpdating ? "আপডেট হচ্ছে..." : "আপডেট"}
             </button>
@@ -188,6 +192,6 @@ const ProfilePage=()=> {
       </div>
     </main>
   );
-}
+};
 
 export default ProfilePage;

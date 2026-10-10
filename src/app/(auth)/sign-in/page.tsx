@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from "react";
@@ -101,22 +100,23 @@ const SignInPage = () => {
   };
 
   return (
-    <main className="min-h-[75vh] bg-[#F0F5F0] px-4 py-10 text-[#252D26]">
+    <main className="min-h-[75vh] bg-[#F0F5F0] px-3 py-7 text-[#252D26] sm:px-4 sm:py-10">
       <div className="mx-auto w-full max-w-110">
+
         {/* Heading */}
-        <div className="mb-6 text-center">
+        <div className="mb-5 text-center sm:mb-6">
           <h1 className="text-2xl font-bold tracking-tight">
             সাইন ইন
           </h1>
 
-          <p className="mt-1 text-sm text-[#758078]">
+          <p className="mx-auto mt-1 max-w-95 text-sm leading-6 text-[#758078]">
             বিস্তারিত নাম, বাজারের তুলনা ও প্রোফাইল দেখতে
             অ্যাকাউন্টে ঢুকুন
           </p>
         </div>
 
         {/* Sign In Card */}
-        <div className="rounded-2xl border border-[#DFE7DF] bg-[#FAFCFA] p-5.5">
+        <div className="rounded-2xl border border-[#DFE7DF] bg-[#FAFCFA] p-4 sm:p-5.5">
           <Form
             className="flex w-full flex-col gap-4"
             onSubmit={onSubmit}
@@ -147,7 +147,7 @@ const SignInPage = () => {
                 name="email"
                 type="email"
                 placeholder="you@example.com"
-                className="h-9.5 w-full rounded-lg border border-[#DFE7DF] bg-transparent px-3 text-sm outline-none focus:border-[#078A43]"
+                className="h-10 w-full rounded-lg border border-[#DFE7DF] bg-transparent px-3 text-sm outline-none focus:border-[#078A43]"
               />
 
               <FieldError className="text-xs text-red-600" />
@@ -175,7 +175,7 @@ const SignInPage = () => {
                 name="password"
                 type="password"
                 placeholder="আপনার পাসওয়ার্ড লিখুন"
-                className="h-9.5 w-full rounded-lg border border-[#DFE7DF] bg-transparent px-3 text-sm outline-none focus:border-[#078A43]"
+                className="h-10 w-full rounded-lg border border-[#DFE7DF] bg-transparent px-3 text-sm outline-none focus:border-[#078A43]"
               />
 
               <FieldError className="text-xs text-red-600" />
@@ -194,50 +194,48 @@ const SignInPage = () => {
             {/* Submit Button */}
             <Button
               type="submit"
-              className="h-12 w-full cursor-pointer rounded-lg bg-[#078A43] text-sm font-semibold text-white shadow-[0_3px_3px_rgba(0,0,0,0.2)] transition-colors duration-300 hover:bg-[#067638]"
+              className="h-11 w-full cursor-pointer rounded-lg bg-[#078A43] text-sm font-semibold text-white shadow-[0_3px_3px_rgba(0,0,0,0.2)] transition-colors duration-300 hover:bg-[#067638] sm:h-12"
             >
               সাইন ইন
             </Button>
           </Form>
 
           {/* Divider */}
-          <div className="my-3 flex items-center gap-3">
+          <div className="my-4 flex items-center gap-3">
             <div className="h-px flex-1 bg-[#DFE7DF]" />
+
             <span className="text-xs text-[#657067]">
               অথবা
             </span>
+
             <div className="h-px flex-1 bg-[#DFE7DF]" />
           </div>
 
           {/* Social Buttons */}
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 gap-2 min-[380px]:grid-cols-2">
             <Button
               type="button"
               variant="secondary"
               onPress={handelGoogleSignIn}
-              className="flex h-9.5 min-w-0 cursor-pointer items-center rounded-lg border border-[#DFE7DF] bg-transparent px-2 text-[14px] font-semibold text-[#252D26] transition-colors hover:bg-[#F0F5F0]"
+              className="flex h-10 w-full min-w-0 cursor-pointer items-center justify-center gap-2 rounded-lg border border-[#DFE7DF] bg-transparent px-2 text-xs font-semibold text-[#252D26] transition-colors hover:bg-[#F0F5F0] sm:text-sm"
             >
-              <span className="pr-1.5 text-base">
-                <FcGoogle />
-              </span>
-              Google দিয়ে চালিয়ে যান
+              <FcGoogle className="shrink-0 text-base" />
+              <span>Google দিয়ে চালিয়ে যান</span>
             </Button>
 
             <Button
               type="button"
               variant="secondary"
               onPress={handelGitHubSignIn}
-              className="flex h-9.5 min-w-0 cursor-pointer items-center rounded-lg border border-[#DFE7DF] bg-transparent px-2 text-[14px] font-semibold text-[#252D26] transition-colors hover:bg-[#F0F5F0]"
+              className="flex h-10 w-full min-w-0 cursor-pointer items-center justify-center gap-2 rounded-lg border border-[#DFE7DF] bg-transparent px-2 text-xs font-semibold text-[#252D26] transition-colors hover:bg-[#F0F5F0] sm:text-sm"
             >
-              <span className="pr-1.5 text-base">
-                <SiRefinedgithub />
-              </span>
-              GitHub দিয়ে চালিয়ে যান
+              <SiRefinedgithub className="shrink-0 text-base" />
+              <span>GitHub দিয়ে চালিয়ে যান</span>
             </Button>
           </div>
 
           {/* Sign Up Link */}
-          <p className="mt-4 text-center text-xs text-[#657067]">
+          <p className="mt-4 text-center text-xs leading-5 text-[#657067]">
             অ্যাকাউন্ট নেই?{" "}
             <Link
               href="/sign-up"
@@ -249,7 +247,7 @@ const SignInPage = () => {
         </div>
 
         {/* Back to Home */}
-        <div className="mt-6 text-center">
+        <div className="mt-5 text-center sm:mt-6">
           <Link
             href="/"
             className="text-sm text-[#758078] transition-colors hover:text-[#078A43]"

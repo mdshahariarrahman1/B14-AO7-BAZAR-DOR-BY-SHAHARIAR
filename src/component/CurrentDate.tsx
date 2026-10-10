@@ -22,7 +22,7 @@ const CurrentDate = () => {
   );
 
   return (
-    <span className="text-[14px] leading-5 font-medium text-[#05893E]">
+    <span className=" text-[10px] leading-5 font-medium text-[#05893E] sm:text-[14px]">
       {date || "তারিখ লোড হচ্ছে..."}
     </span>
   );

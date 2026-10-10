@@ -1,4 +1,3 @@
-
 import { Suspense } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -26,7 +25,6 @@ const ProductDetailsContent = async ({
 
   const result = await res.json();
 
-  // API একটি object অথবা array ফেরত দিলে handle করবে
   const product: Product | undefined = Array.isArray(result)
     ? result.find((item: Product) => item.slug === productId)
     : result.product
@@ -61,39 +59,41 @@ const ProductDetailsContent = async ({
       : product.today;
 
   return (
-    <main className="min-h-screen bg-[#F0F5F1] px-4 py-6">
+    <main className="min-h-screen bg-[#F0F5F1] px-3 py-4 sm:px-4 sm:py-6">
       <div className="container mx-auto">
-        <div className="mb-5 text-[14px] text-gray-500">
+        {/* Breadcrumb */}
+        <div className="mb-4 flex flex-wrap items-center gap-y-1 text-xs text-gray-500 sm:mb-5 sm:text-sm">
           <Link className="pr-1" href="/">
             হোম
           </Link>
           {" › "}
           <Link
-            className="pr-1"
+            className="px-1"
             href={`/category/${product.category}`}
           >
             {product.categoryNameBn}
           </Link>
           {" › "}
-          {product.nameBn}
+          <span className="wrap-break-word">{product.nameBn}</span>
         </div>
 
-        <section className="flex items-center justify-between gap-3 rounded-xl border border-[#DFE8E0] bg-[#FAFCFA] p-4">
-          <div className="flex items-center gap-3">
-            <div className="rounded-xl bg-[#F0F5F1] p-3 text-3xl">
+        {/* Product Header */}
+        <section className="flex flex-col gap-4 rounded-xl border border-[#DFE8E0] bg-[#FAFCFA] p-3 sm:flex-row sm:items-center sm:justify-between sm:gap-3 sm:p-4">
+          <div className="flex min-w-0 items-start gap-3 sm:items-center">
+            <div className="shrink-0 rounded-xl bg-[#F0F5F1] p-2 text-2xl sm:p-3 sm:text-3xl">
               {product.image}
             </div>
 
-            <div>
-              <h1 className="text-xl font-bold text-[#1D271F]">
+            <div className="min-w-0">
+              <h1 className="wrap-break-word text-lg font-bold text-[#1D271F] sm:text-xl">
                 {product.nameBn}
               </h1>
 
-              <p className="text-xs text-gray-500">
+              <p className="mt-1 text-xs text-gray-500">
                 প্রতি {product.unit} · {product.categoryNameBn}
               </p>
 
-              <p className="mt-2 text-xs">
+              <p className="mt-2 text-xs leading-5 text-gray-600">
                 গতকালের তুলনায় আজকের দাম{" "}
                 {product.change?.dir === "up"
                   ? "বেড়েছে"
@@ -104,10 +104,10 @@ const ProductDetailsContent = async ({
             </div>
           </div>
 
-          <div className="rounded-xl bg-[#F0F5F1] p-4 text-center">
+          <div className="w-full rounded-xl bg-[#F0F5F1] p-3 text-center sm:w-auto sm:min-w-37.5 sm:p-4">
             <p className="text-xs text-gray-500">আজকের দাম</p>
 
-            <h2 className="text-2xl font-bold">
+            <h2 className="mt-1 text-2xl font-bold text-[#1D271F] sm:text-2xl">
               {product.today.toLocaleString("bn-BD")}
             </h2>
 
@@ -118,10 +118,10 @@ const ProductDetailsContent = async ({
             <p
               className={
                 product.change?.dir === "up"
-                  ? "text-xs text-red-600"
+                  ? "mt-1 text-xs text-red-600"
                   : product.change?.dir === "down"
-                    ? "text-xs text-green-600"
-                    : "text-xs text-gray-500"
+                    ? "mt-1 text-xs text-green-600"
+                    : "mt-1 text-xs text-gray-500"
               }
             >
               {product.change?.dir === "up"
@@ -135,20 +135,20 @@ const ProductDetailsContent = async ({
         </section>
 
         {/* Price Summary */}
-        <section className="mt-4 rounded-xl border border-[#DFE8E0] bg-[#FAFCFA] p-4">
+        <section className="mt-4 rounded-xl border border-[#DFE8E0] bg-[#FAFCFA] p-3 sm:p-4">
           <h2 className="mb-3 text-sm font-bold">
             দামের সারসংক্ষেপ
           </h2>
 
-          <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+          <div className="grid grid-cols-1 gap-2 min-[380px]:grid-cols-2 sm:grid-cols-3">
             <div className="rounded-xl border border-[#DFE8E0] p-3">
               <p className="text-xs text-gray-500">সর্বনিম্ন দাম</p>
 
-              <p className="mt-1 font-bold text-green-600">
+              <p className="mt-1 wrap-break-word font-bold text-green-600">
                 {minPrice.toLocaleString("bn-BD")} টাকা
               </p>
 
-              <p className="text-[10px] text-gray-500">
+              <p className="mt-1 text-[10px] text-gray-500">
                 সবচেয়ে কম দামের বাজার
               </p>
             </div>
@@ -156,26 +156,26 @@ const ProductDetailsContent = async ({
             <div className="rounded-xl border border-[#DFE8E0] p-3">
               <p className="text-xs text-gray-500">সর্বোচ্চ দাম</p>
 
-              <p className="mt-1 font-bold text-red-600">
+              <p className="mt-1 wrap-break-word font-bold text-red-600">
                 {maxPrice.toLocaleString("bn-BD")} টাকা
               </p>
 
-              <p className="text-[10px] text-gray-500">
+              <p className="mt-1 text-[10px] text-gray-500">
                 সবচেয়ে বেশি দামের বাজার
               </p>
             </div>
 
-            <div className="rounded-xl border border-[#DFE8E0] p-3">
+            <div className="rounded-xl border border-[#DFE8E0] p-3 min-[380px]:col-span-2 sm:col-span-1">
               <p className="text-xs text-gray-500">গড় দাম</p>
 
-              <p className="mt-1 font-bold">
+              <p className="mt-1 wrap-break-word font-bold">
                 {averagePrice.toLocaleString("bn-BD", {
                   maximumFractionDigits: 2,
                 })}{" "}
                 টাকা
               </p>
 
-              <p className="text-[10px] text-gray-500">
+              <p className="mt-1 text-[10px] text-gray-500">
                 বাজারের দাম অনুযায়ী
               </p>
             </div>
@@ -187,7 +187,7 @@ const ProductDetailsContent = async ({
           </h2>
 
           <div className="overflow-x-auto rounded-xl border border-[#DFE8E0]">
-            <table className="w-full text-[14px]">
+            <table className="w-full min-w-155 text-sm">
               <thead className="bg-[#F7FAF7] text-gray-500">
                 <tr>
                   <th className="p-3 text-left">বাজার</th>
@@ -208,21 +208,25 @@ const ProductDetailsContent = async ({
                         : "border-t bg-[#F0F5F1]"
                     }
                   >
-                    <td className="p-3">{market.market}</td>
-                    <td className="p-3">{market.division}</td>
+                    <td className="whitespace-nowrap p-3">
+                      {market.market}
+                    </td>
 
-                    <td className="p-3 text-right">
+                    <td className="whitespace-nowrap p-3">
+                      {market.division}
+                    </td>
+
+                    <td className="whitespace-nowrap p-3 text-right">
                       {market.min.toLocaleString("bn-BD")} টাকা
                     </td>
 
-                    <td className="p-3 text-right">
+                    <td className="whitespace-nowrap p-3 text-right">
                       {market.max.toLocaleString("bn-BD")} টাকা
                     </td>
 
-                    <td className="p-3 text-right font-semibold">
+                    <td className="whitespace-nowrap p-3 text-right font-semibold">
                       {(
-                        (market.min + market.max) /
-                        2
+                        (market.min + market.max) / 2
                       ).toLocaleString("bn-BD")}{" "}
                       টাকা
                     </td>
@@ -231,7 +235,10 @@ const ProductDetailsContent = async ({
 
                 {markets.length === 0 && (
                   <tr>
-                    <td colSpan={5} className="p-5 text-center">
+                    <td
+                      colSpan={5}
+                      className="p-5 text-center"
+                    >
                       বাজারের তথ্য পাওয়া যায়নি।
                     </td>
                   </tr>

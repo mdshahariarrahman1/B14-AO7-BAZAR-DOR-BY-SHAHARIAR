@@ -6,28 +6,35 @@ import CurrentDate from "./CurrentDate";
 import UserInfo from "./UserInfo";
 
 const NavbarPage = () => {
-
   return (
     <>
-      <section className="container mx-auto flex justify-between py-3 px-4">
-        <div className=" flex items-center gap-3">
+      <section className="container mx-auto flex items-center justify-between gap-2 px-3 py-2 sm:px-4 sm:py-3">
+        <div className="flex min-w-0 items-center gap-2 sm:gap-3">
           <Image
             src={Logo}
             alt="LOGO"
             width={64}
             height={64}
-            className="py-3 px-4 bg-green-700 rounded-2xl"
+            className="h-12 w-12 shrink-0 rounded-xl bg-green-700 p-2 sm:h-16 sm:w-16 sm:rounded-2xl sm:p-3"
           />
-          <div>
-            <h1 className=" font-bold text-[22px]">বাজার দর</h1>
-            <p className="text-[14px]"><CurrentDate/></p>
+
+          <div className="min-w-0">
+            <h1 className="text-[18px] font-bold sm:text-[22px]">
+              বাজার দর
+            </h1>
+
+            <p className="text-xs sm:text-[14px]">
+              <CurrentDate />
+            </p>
           </div>
         </div>
 
-        <UserInfo/>
+        <div className="shrink-0">
+          <UserInfo />
+        </div>
       </section>
-      <NavLinksPage/>
-    
+
+      <NavLinksPage />
     </>
   );
 };
