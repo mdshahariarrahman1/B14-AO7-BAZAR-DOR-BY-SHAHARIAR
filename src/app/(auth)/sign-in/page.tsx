@@ -12,7 +12,7 @@ import {
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 import { SiRefinedgithub } from "react-icons/si";
-import { signIn } from "@/lib/auth-client";
+import { authClient, signIn } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
@@ -46,6 +46,26 @@ const SignInPage = () => {
 
     router.push("/");
     router.refresh();
+  };
+
+  const handelGoogleSignUp = async () => {
+    try {
+      const { data, error } = await authClient.signIn.social({
+        provider: "google",
+        callbackURL: "/",
+      });
+
+      if (error) {
+        console.error("Google Sign Up Error:", error);
+        toast.error(error.message || "Google দিয়ে সাইন আপ করা যায়নি");
+        return;
+      }
+
+      console.log("Google Sign Up Success:", data);
+    } catch (err) {
+      console.error("Google Sign Up Exception:", err);
+      toast.error("Google authentication ব্যর্থ হয়েছে");
+    }
   };
 
   return (
@@ -152,9 +172,7 @@ const SignInPage = () => {
               type="button"
               variant="secondary"
               className="flex h-9.5 min-w-0 cursor-pointer items-center rounded-lg border border-[#DFE7DF] bg-transparent px-2 text-[14px] font-semibold text-[#252D26] transition-colors hover:bg-[#F0F5F0]"
-              onPress={() => {
-                alert("Google authentication এখনো যুক্ত করা হয়নি");
-              }}
+              onPress={handelGoogleSignUp}
             >
               <p className="text-base font-bold pr-1.5">
                 <FcGoogle />
