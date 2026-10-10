@@ -81,7 +81,7 @@ const UserInfo = () => {
           </div>
         )}
 
-        <span className="text-[12px] font-medium leading-5 text-[#1D271F]">
+        <span className="text-[14px] font-medium leading-5 text-[#1D271F]">
           {user.name || "User"}
         </span>
 
@@ -142,7 +142,7 @@ const UserInfo = () => {
             <button
               type="button"
               onClick={handleSignOut}
-              className="flex w-full items-center gap-2 text-left text-[18px] text-[#EF4444] hover:text-[#C62828] transition-colors"
+              className="flex cursor-pointer w-full items-center gap-2 text-left text-[18px] text-[#EF4444] hover:text-[#C62828] transition-colors"
             >
               <span className="text-[24px]">↶</span>
               <span>সাইন আউট</span>

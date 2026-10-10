@@ -1,3 +1,4 @@
+
 "use client";
 
 import React from "react";
@@ -19,52 +20,83 @@ import { toast } from "react-toastify";
 const SignInPage = () => {
   const router = useRouter();
 
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  // Email and password sign in
+  const onSubmit = async (
+    e: React.FormEvent<HTMLFormElement>,
+  ) => {
     e.preventDefault();
+
     const formData = new FormData(e.currentTarget);
-    const data: Record<string, FormDataEntryValue> = Object.fromEntries(
-      formData.entries(),
-    );
 
-    console.log(data);
+    const email = String(formData.get("email") ?? "").trim();
+    const password = String(formData.get("password") ?? "");
 
-    const { data: resData, error } = await signIn.email({
-      email: data.email as string,
-      password: data.password as string,
-      callbackURL: "/",
-    });
-
-    if (error) {
-      console.error("Sign In Error:", error);
-      toast.error(error.message || "সাইন ইন করা যায়নি");
+    if (!email || !password) {
+      toast.error("ইমেইল ও পাসওয়ার্ড লিখুন");
       return;
     }
 
-    console.log("Sign In Success:", resData);
+    try {
+      const { data, error } = await signIn.email({
+        email,
+        password,
+        callbackURL: "/",
+      });
 
-    toast.success("সফলভাবে সাইন ইন হয়েছে!");
+      if (error) {
+        console.error("Sign In Error:", error);
+        toast.error(error.message || "সাইন ইন করা যায়নি");
+        return;
+      }
 
-    router.push("/");
-    router.refresh();
+      console.log("Sign In Success:", data);
+      toast.success("সফলভাবে সাইন ইন হয়েছে!");
+
+      router.replace("/");
+      router.refresh();
+    } catch (err) {
+      console.error("Sign In Exception:", err);
+      toast.error("সার্ভারের সঙ্গে সংযোগ করা যায়নি");
+    }
   };
 
-  const handelGoogleSignUp = async () => {
+  // Google sign in
+  const handelGoogleSignIn = async () => {
     try {
-      const { data, error } = await authClient.signIn.social({
+      const { error } = await authClient.signIn.social({
         provider: "google",
         callbackURL: "/",
       });
 
       if (error) {
-        console.error("Google Sign Up Error:", error);
-        toast.error(error.message || "Google দিয়ে সাইন আপ করা যায়নি");
-        return;
+        console.error("Google Sign In Error:", error);
+        toast.error(
+          error.message || "Google দিয়ে সাইন ইন করা যায়নি",
+        );
       }
-
-      console.log("Google Sign Up Success:", data);
     } catch (err) {
-      console.error("Google Sign Up Exception:", err);
+      console.error("Google Sign In Exception:", err);
       toast.error("Google authentication ব্যর্থ হয়েছে");
+    }
+  };
+
+  // GitHub sign in
+  const handelGitHubSignIn = async () => {
+    try {
+      const { error } = await authClient.signIn.social({
+        provider: "github",
+        callbackURL: "/",
+      });
+
+      if (error) {
+        console.error("GitHub Sign In Error:", error);
+        toast.error(
+          error.message || "GitHub দিয়ে সাইন ইন করা যায়নি",
+        );
+      }
+    } catch (err) {
+      console.error("GitHub Sign In Exception:", err);
+      toast.error("GitHub authentication ব্যর্থ হয়েছে");
     }
   };
 
@@ -73,33 +105,47 @@ const SignInPage = () => {
       <div className="mx-auto w-full max-w-110">
         {/* Heading */}
         <div className="mb-6 text-center">
-          <h1 className="text-2xl font-bold tracking-tight">সাইন ইন</h1>
+          <h1 className="text-2xl font-bold tracking-tight">
+            সাইন ইন
+          </h1>
 
           <p className="mt-1 text-sm text-[#758078]">
-            বিস্তারিত নাম, বাজারের তুলনা ও প্রোফাইল দেখতে অ্যাকাউন্টে ঢুকুন
+            বিস্তারিত নাম, বাজারের তুলনা ও প্রোফাইল দেখতে
+            অ্যাকাউন্টে ঢুকুন
           </p>
         </div>
 
         {/* Sign In Card */}
         <div className="rounded-2xl border border-[#DFE7DF] bg-[#FAFCFA] p-5.5">
-          <Form className="flex w-full flex-col gap-4" onSubmit={onSubmit}>
+          <Form
+            className="flex w-full flex-col gap-4"
+            onSubmit={onSubmit}
+          >
             {/* Email */}
             <TextField
               isRequired
               name="email"
               type="email"
+              className="flex w-full flex-col gap-1.5"
               validate={(value) => {
-                if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
+                if (
+                  !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(
+                    value,
+                  )
+                ) {
                   return "সঠিক ইমেইল অ্যাড্রেস লিখুন";
                 }
 
                 return null;
               }}
-              className="flex w-full flex-col gap-1.5"
             >
-              <Label className="text-sm font-medium">ইমেইল</Label>
+              <Label className="text-sm font-medium">
+                ইমেইল
+              </Label>
 
               <Input
+                name="email"
+                type="email"
                 placeholder="you@example.com"
                 className="h-9.5 w-full rounded-lg border border-[#DFE7DF] bg-transparent px-3 text-sm outline-none focus:border-[#078A43]"
               />
@@ -112,28 +158,23 @@ const SignInPage = () => {
               isRequired
               name="password"
               type="password"
-              minLength={8}
+              className="flex w-full flex-col gap-1.5"
               validate={(value) => {
-                if (value.length < 8) {
-                  return "পাসওয়ার্ড কমপক্ষে ৮ অক্ষরের হতে হবে";
-                }
-
-                if (!/[A-Z]/.test(value)) {
-                  return "অন্তত একটি ইংরেজি বড় হাতের অক্ষর দিন";
-                }
-
-                if (!/[0-9]/.test(value)) {
-                  return "অন্তত একটি সংখ্যা দিন";
+                if (!value) {
+                  return "পাসওয়ার্ড লিখুন";
                 }
 
                 return null;
               }}
-              className="flex w-full flex-col gap-1.5"
             >
-              <Label className="text-sm font-medium">পাসওয়ার্ড</Label>
+              <Label className="text-sm font-medium">
+                পাসওয়ার্ড
+              </Label>
 
               <Input
-                placeholder="কমপক্ষে ৮ অক্ষর"
+                name="password"
+                type="password"
+                placeholder="আপনার পাসওয়ার্ড লিখুন"
                 className="h-9.5 w-full rounded-lg border border-[#DFE7DF] bg-transparent px-3 text-sm outline-none focus:border-[#078A43]"
               />
 
@@ -143,7 +184,7 @@ const SignInPage = () => {
             {/* Forgot Password */}
             <div className="-mt-2 flex w-full justify-end">
               <Link
-                href="/sign-up"
+                href="/forgot-password"
                 className="text-xs text-[#078A43] hover:underline"
               >
                 পাসওয়ার্ড ভুলে গেছেন?
@@ -162,7 +203,9 @@ const SignInPage = () => {
           {/* Divider */}
           <div className="my-3 flex items-center gap-3">
             <div className="h-px flex-1 bg-[#DFE7DF]" />
-            <span className="text-xs text-[#657067]">অথবা</span>
+            <span className="text-xs text-[#657067]">
+              অথবা
+            </span>
             <div className="h-px flex-1 bg-[#DFE7DF]" />
           </div>
 
@@ -171,26 +214,24 @@ const SignInPage = () => {
             <Button
               type="button"
               variant="secondary"
+              onPress={handelGoogleSignIn}
               className="flex h-9.5 min-w-0 cursor-pointer items-center rounded-lg border border-[#DFE7DF] bg-transparent px-2 text-[14px] font-semibold text-[#252D26] transition-colors hover:bg-[#F0F5F0]"
-              onPress={handelGoogleSignUp}
             >
-              <p className="text-base font-bold pr-1.5">
+              <span className="pr-1.5 text-base">
                 <FcGoogle />
-              </p>
+              </span>
               Google দিয়ে চালিয়ে যান
             </Button>
 
             <Button
               type="button"
               variant="secondary"
+              onPress={handelGitHubSignIn}
               className="flex h-9.5 min-w-0 cursor-pointer items-center rounded-lg border border-[#DFE7DF] bg-transparent px-2 text-[14px] font-semibold text-[#252D26] transition-colors hover:bg-[#F0F5F0]"
-              onPress={() => {
-                alert("GitHub authentication এখনো যুক্ত করা হয়নি");
-              }}
             >
-              <p className="text-base font-bold pr-1.5">
+              <span className="pr-1.5 text-base">
                 <SiRefinedgithub />
-              </p>
+              </span>
               GitHub দিয়ে চালিয়ে যান
             </Button>
           </div>

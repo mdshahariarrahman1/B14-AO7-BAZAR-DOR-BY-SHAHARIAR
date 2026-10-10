@@ -84,7 +84,7 @@ const SignUpPage = () => {
       // Signup successful
       toast.success("অ্যাকাউন্ট তৈরি হয়েছে!");
 
-      router.replace("/");
+      router.replace("/sign-in");
       router.refresh();
     } catch (err) {
       console.error("Sign Up Exception:", err);
@@ -109,6 +109,26 @@ const SignUpPage = () => {
     } catch (err) {
       console.error("Google Sign Up Exception:", err);
       toast.error("Google authentication ব্যর্থ হয়েছে");
+    }
+  };
+
+  const handelGitHubSignUp = async () => {
+    try {
+      const { data, error } = await authClient.signIn.social({
+        provider: "github",
+        callbackURL: "/",
+      });
+
+      if (error) {
+        console.error("GitHub Sign Up Error:", error);
+        toast.error(error.message || "GitHub দিয়ে সাইন আপ করা যায়নি");
+        return;
+      }
+
+      console.log("GitHub Sign Up Success:", data);
+    } catch (err) {
+      console.error("GitHub Sign Up Exception:", err);
+      toast.error("GitHub authentication ব্যর্থ হয়েছে");
     }
   };
 
@@ -286,9 +306,7 @@ const SignUpPage = () => {
               type="button"
               variant="secondary"
               className="flex h-9.5 min-w-0 cursor-pointer items-center rounded-lg border border-[#DFE7DF] bg-transparent px-2 text-[14px] font-semibold text-[#252D26] transition-colors hover:bg-[#F0F5F0]"
-              onPress={() => {
-                toast.info("GitHub authentication এখনো যুক্ত করা হয়নি");
-              }}
+              onPress={handelGitHubSignUp}
             >
               <span className="pr-1.5 text-base">
                 <SiRefinedgithub />
