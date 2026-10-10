@@ -5,6 +5,8 @@ import "./globals.css";
 import NavbarPage from "@/component/Navbar";
 import FooterPage from "@/component/Footer";
 import { Suspense } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const hindSiliguri = Hind_Siliguri({
   subsets: ["bengali"],
@@ -19,16 +21,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="bn"
-      className={`${hindSiliguri.variable} h-full antialiased`}
-    >
+    <html lang="bn" className={`${hindSiliguri.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
         <Suspense fallback={<div>loading...</div>}>
-        <NavbarPage />
+          <NavbarPage />
         </Suspense>
         <main>{children}</main>
-        <FooterPage/>
+        <ToastContainer position="top-center" autoClose={3000} theme="light" />
+        <FooterPage />
       </body>
     </html>
   );

@@ -3,6 +3,7 @@ import Image from "next/image";
 import Logo from "@/asst/logo-icon.png";
 import NavLinksPage from "./NavLinks";
 import CurrentDate from "./CurrentDate";
+import UserInfo from "./UserInfo";
 
 const NavbarPage = () => {
 
@@ -23,17 +24,7 @@ const NavbarPage = () => {
           </div>
         </div>
 
-        <div className=" flex gap-4">
-          <button className=" font-semibold text-[16px] text-[#1D271F] leading-5.25 py-2.5 px-5 cursor-pointer">
-            সাইন ইন
-          </button>
-          <button
-            className="font-semibold text-[16px] text-[#F3FBF4] bg-[#05893E] leading-5.25 py-2.5 px-5 rounded-lg
-          hover:shadow-[0_6px_8px_0_#047F3966] cursor-pointer transition-shadow duration-200"
-          >
-            সাইন আপ
-          </button>
-        </div>
+        <UserInfo/>
       </section>
       <NavLinksPage/>
     
