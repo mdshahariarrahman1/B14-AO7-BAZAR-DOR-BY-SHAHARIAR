@@ -47,7 +47,7 @@ const NavbarPage = async () => {
               src={HeroImage}
               alt="বাজারের পণ্য"
               priority
-              className="h-auto w-full max-w-[260px] object-contain sm:max-w-[320px] md:w-auto md:max-w-none"
+              className="h-auto w-full max-w-65 object-contain sm:max-w-[320px] md:w-auto md:max-w-none"
             />
           </div>
 
